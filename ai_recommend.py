@@ -1,10 +1,15 @@
+import os
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from g4f import Client
 import json
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)
+
+@app.route('/')
+def home():
+    return "Backend is running!"
 
 @app.route('/api/ai-recommend', methods=['POST'])
 def ai_recommend():
@@ -34,8 +39,6 @@ def ai_recommend():
     )
     return jsonify({'recommendation': response.choices[0].message.content})
 
-import os
-
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))  # Use Render's PORT or default to 5000
+    port = int(os.environ.get('PORT', 5000))  # Use Render port or fallback 5000
     app.run(host='0.0.0.0', port=port)
